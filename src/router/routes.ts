@@ -5,7 +5,7 @@ export default [
   {
     name: 'home',
     path: '/',
-    component: () => HomeView,
+    component: HomeView,
     meta: {
       title: '主页'
     }
@@ -30,11 +30,37 @@ export default [
       {
         name: 'collectList',
         path: '/collect/list',
-        component: () => import('@/views/collect/list.vue'),
+        component: () => import('@/views/job/list.vue'),
         meta: {
-          title: '采集列表',
+          title: 'Job列表',
+        }
+      },
+      {
+        name: 'job',
+        path: '/collect/job',
+        component: () => import('@/views/job/class.vue'),
+        meta: {
+          title: 'JobClass',
         }
       }
     ],
+  },
+  {
+    name: 'vod',
+    path: '/vod',
+    redirect: '/vod/list',
+    meta: {
+      title: '影片管理',
+    },
+    children: [
+      {
+        name: 'list',
+        path: '/vod/provider',
+        component: () => import('@/views/vod/provider.vue'),
+        meta: {
+          title: '供应商管理',
+        }
+      }
+    ]
   }
 ] as RouteRecordRaw[]

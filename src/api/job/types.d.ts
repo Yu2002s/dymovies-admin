@@ -1,3 +1,6 @@
+/**
+ * 调度工作
+ */
 export type SchedulerJob = {
   id?: number
   status?: number
@@ -12,8 +15,11 @@ export type SchedulerJob = {
   children?: SchedulerJob[]
 }
 
+/**
+ * 工作类
+ */
 export type JobClass = {
-  id: number
+  id?: number
   name: string
   remark: string
 }

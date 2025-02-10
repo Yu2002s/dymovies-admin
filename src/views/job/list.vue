@@ -1,17 +1,17 @@
 <script setup lang="ts">
+import type { BaseResponse } from '@/api/common'
 import {
   reqAddOrUpdateJob,
   reqDeleteJob,
   reqGetJobClassList,
   reqGetJobTree,
   reqPauseJob,
-  reqResumeJob
-} from "@/api/job";
-import type {JobClass, SchedulerJob} from "@/api/job/types";
-import {ElMessage} from "element-plus";
-import type {BaseResponse} from "@/api/common";
-import {reqGetVodProviders} from "@/api/vod/provider.ts";
-import type {VodProvider} from "@/api/vod/type";
+  reqResumeJob,
+} from '@/api/job'
+import type { JobClass, SchedulerJob } from '@/api/job/types'
+import { reqGetVodProviders } from '@/api/vod/provider.ts'
+import type { VodProvider } from '@/api/vod/type'
+import { ElMessage } from 'element-plus'
 
 const jobTree = ref<SchedulerJob[]>([])
 const isAddJob = ref(true)
@@ -30,7 +30,7 @@ const jobClassList = ref<JobClass[]>([])
 const vodProviders = ref<VodProvider[]>([])
 
 defineOptions({
-  name: 'CollectListView'
+  name: 'JobListView',
 })
 
 onMounted(() => {
@@ -131,7 +131,7 @@ const getVodProviders = async () => {
 }
 
 const onJobGroupChange = (group: string) => {
-  const vodProvider = vodProviders.value.find(item => item.name === group)
+  const vodProvider = vodProviders.value.find((item) => item.name === group)
   if (vodProvider) {
     jobForm.value.url = vodProvider.url
   }
@@ -140,41 +140,40 @@ const onJobGroupChange = (group: string) => {
 </script>
 
 <template>
-  <div style="height: 100%">
+  <div style="padding: 10px">
     <el-card>
-      <el-form>
-        <el-form-item>
-          <el-button type="primary" @click="addJob">新增</el-button>
-          <!--          <el-button type="primary" @click="deleteJob(jobTree)">批量删除</el-button>-->
-          <el-button type="info" @click="getJobTree">刷新</el-button>
-        </el-form-item>
-      </el-form>
+      <el-button type="primary" @click="addJob">新增</el-button>
+      <!--          <el-button type="primary" @click="deleteJob(jobTree)">批量删除</el-button>-->
+      <el-button type="info" @click="getJobTree">刷新</el-button>
     </el-card>
     <el-card style="margin-top: 10px">
       <el-table
         v-loading="loading"
         :data="jobTree"
-        style="width: 100%;"
+        style="width: 100%"
         row-key="key"
         border
         default-expand-all
       >
         <!--        <el-table-column prop="key" label="key" width="120"/>-->
-        <el-table-column prop="name" label="名称" width="180"/>
-        <el-table-column prop="group" label="组" width="100"/>
-        <el-table-column prop="cron" label="Cron表达式" width="120"/>
-        <el-table-column prop="jobClass" label="JobClass" show-overflow-tooltip/>
-        <el-table-column prop="desc" label="描述"/>
-        <el-table-column prop="statusStr" label="状态" width="70"/>
+        <el-table-column prop="name" label="名称" width="180" />
+        <el-table-column prop="group" label="组" width="100" />
+        <el-table-column prop="cron" label="Cron表达式" width="120" />
+        <el-table-column prop="jobClass" label="JobClass" show-overflow-tooltip />
+        <el-table-column prop="desc" label="描述" />
+        <el-table-column prop="statusStr" label="状态" width="70" />
 
         <el-table-column fixed="right" label="操作" width="200">
-          <template #default="{row}">
-            <el-button size="small" v-if="!row.children" type="warning"
-                       @click="changeJobStatus(row)">{{
-                row.status === 1 ? '暂停' : '启动'
-              }}
+          <template #default="{ row }">
+            <el-button
+              size="small"
+              v-if="!row.children"
+              type="warning"
+              @click="changeJobStatus(row)"
+              >{{ row.status === 1 ? '暂停' : '启动' }}
             </el-button>
-            <el-button size="small" v-if="!row.children" type="primary" @click="editJob(row)">编辑
+            <el-button size="small" v-if="!row.children" type="primary" @click="editJob(row)"
+              >编辑
             </el-button>
             <el-popconfirm title="确认删除?" v-if="!row.children" @confirm="deleteJob([row])">
               <template #reference>
@@ -189,10 +188,10 @@ const onJobGroupChange = (group: string) => {
     <el-dialog width="600" v-model="isShowJobDialog" :title="isAddJob ? '新增' : '编辑'">
       <el-form label-width="80" label-position="right">
         <el-form-item label="名称">
-          <el-input v-model="jobForm.name" placeholder="请输入名称"/>
+          <el-input v-model="jobForm.name" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="组">
-<!--          <el-input v-model="jobForm.group" placeholder="请输入组"/>-->
+          <!--          <el-input v-model="jobForm.group" placeholder="请输入组"/>-->
           <el-select v-model="jobForm.group" placeholder="请选择" @change="onJobGroupChange">
             <el-option
               v-for="item in vodProviders"
@@ -201,13 +200,7 @@ const onJobGroupChange = (group: string) => {
               :value="item.name"
             >
               <span style="float: left">{{ item.remark }}</span>
-              <span
-                style="
-                float: right;
-                color: var(--el-text-color-secondary);
-                font-size: 13px;
-              "
-              >
+              <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">
                 {{ item.name }}
               </span>
             </el-option>
@@ -216,7 +209,7 @@ const onJobGroupChange = (group: string) => {
         <el-form-item label="Cron">
           <el-row>
             <el-col :span="16">
-              <el-input v-model="jobForm.cron" placeholder="请输入Cron表达式"/>
+              <el-input v-model="jobForm.cron" placeholder="请输入Cron表达式" />
             </el-col>
             <el-col :span="8">
               <el-button @click="showCronDialog = true">设置</el-button>
@@ -232,13 +225,7 @@ const onJobGroupChange = (group: string) => {
               :value="item.name"
             >
               <span style="float: left">{{ item.remark }}</span>
-              <span
-                style="
-                float: right;
-                color: var(--el-text-color-secondary);
-                font-size: 13px;
-              "
-              >
+              <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">
                 {{ item.name }}
               </span>
             </el-option>
@@ -246,10 +233,10 @@ const onJobGroupChange = (group: string) => {
           <!--          <el-input v-model="jobForm.jobClass" placeholder="请输入JobClass地址" />-->
         </el-form-item>
         <el-form-item label="描述">
-          <el-input v-model="jobForm.desc" placeholder="请输入描述"/>
+          <el-input v-model="jobForm.desc" placeholder="请输入描述" />
         </el-form-item>
         <el-form-item label="采集地址">
-          <el-input v-model="jobForm.url" placeholder="请输入采集地址"/>
+          <el-input v-model="jobForm.url" placeholder="请输入采集地址" />
         </el-form-item>
       </el-form>
 
@@ -260,7 +247,7 @@ const onJobGroupChange = (group: string) => {
     </el-dialog>
 
     <el-dialog title="Cron表达式" v-model="showCronDialog">
-<!--      <CronLight
+      <!--      <CronLight
         v-model="jobForm.cron"
         max-height="600px">
       </CronLight>-->
@@ -271,6 +258,4 @@ const onJobGroupChange = (group: string) => {
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

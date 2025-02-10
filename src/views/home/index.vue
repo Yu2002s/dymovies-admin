@@ -6,7 +6,7 @@ defineOptions({
 
 <template>
 <div>
-  1231231
+  Admin 你好
 </div>
 </template>
 

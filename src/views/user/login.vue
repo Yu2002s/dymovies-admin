@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
 import {ElMessage, type FormInstance} from 'element-plus'
+import type {LoginForm} from "@/api/user/types";
 
 const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = reactive({
+const formData = reactive<LoginForm>({
   username: '',
   password: ''
 })
