@@ -10,7 +10,9 @@ export type User = {
 /**
  * 登录表单所需的数据
  */
-export type LoginForm = Pick<User, "username" | "password">
+export type LoginForm = Pick<User, "username" | "password"> & {
+  code: string
+}
 
 /**
  * 用户凭证信息

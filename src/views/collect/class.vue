@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {reqAddJobClass, reqDeleteJobClass, reqGetJobClassList} from "@/api/job";
-import type {JobClass} from "@/api/job/types";
+import {reqAddJobClass, reqDeleteJobClass, reqGetJobClassList} from "../../api/collect";
+import type {JobClass} from "@/api/collect/types";
 import {ElMessage, type FormInstance} from "element-plus";
 
 const classForm = ref<JobClass>({

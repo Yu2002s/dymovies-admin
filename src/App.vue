@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {useLayoutStore} from "@/stores/layout.ts";
-import {useUserStore} from "@/stores/user.ts";
+import { useLayoutStore } from '@/stores/layout.ts'
+import { useUserStore } from '@/stores/user.ts'
 import Logo from '@/layout/logo/index.vue'
 import Menu from '@/layout/menu/index.vue'
-import Toolbar from "@/layout/toolbar/index.vue";
+import Toolbar from '@/layout/toolbar/index.vue'
 
 import menu from '@/router/routes'
 
@@ -18,7 +18,7 @@ watch(
     nextTick(() => {
       flag.value = true
     })
-  }
+  },
 )
 </script>
 
@@ -26,15 +26,15 @@ watch(
   <el-container class="app-container" style="height: 100vh">
     <el-aside :class="{ expand: layoutStore.isExpand }" v-if="userStore.isLogin">
       <el-scrollbar>
-        <Logo/>
+        <Logo />
         <el-menu router :default-active="route.path" :collapse="!layoutStore.isExpand">
-          <Menu :menu-list="menu"/>
+          <Menu :menu-list="menu" />
         </el-menu>
       </el-scrollbar>
     </el-aside>
 
     <el-container direction="vertical">
-      <Toolbar v-if="userStore.isLogin"/>
+      <Toolbar v-if="userStore.isLogin" />
       <el-main>
         <el-scrollbar :class="{ fill: !userStore.isLogin }" height="100%">
           <RouterView v-slot="{ Component }">
@@ -55,6 +55,7 @@ watch(
   .el-aside {
     overflow: hidden;
     width: 64px;
+    transition: width 0.4s ease;
 
     &.expand {
       width: 250px;
@@ -65,7 +66,7 @@ watch(
     --el-main-padding: 0;
 
     .el-scrollbar {
-      height: calc(100vh - 60px);
+      height: calc(100vh - 115px);
 
       &.fill {
         height: 100vh;

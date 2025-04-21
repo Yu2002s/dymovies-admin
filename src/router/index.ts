@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from "@/router/routes.ts";
 import {useUserStore} from "@/stores/user.ts";
+import {useLayoutStore} from "@/stores/layout.ts";
 import nProgress from 'nprogress'
-import pinia from "@/stores";
-
-const userStore = useUserStore(pinia)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +12,7 @@ const router = createRouter({
 // 路由前置守卫
 router.beforeEach(async (to, from, next) => {
   nProgress.start()
+  const userStore = useUserStore()
   if (userStore.isLogin) {
     if (to.path === '/login') {
       next('/')
@@ -51,6 +50,7 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach((from, next) => {
   nProgress.done()
+  useLayoutStore().addNav({title: from.meta.title, path: from.path})
 })
 
 export default router

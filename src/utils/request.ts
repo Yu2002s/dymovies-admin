@@ -20,6 +20,12 @@ axiosInstance.interceptors.request.use(function (config) {
 
 axiosInstance.interceptors.response.use(
   function (response) {
+    if (response.data.code !== 200) {
+      ElMessage.error({
+        message: response.data.msg
+      })
+      return Promise.reject(response.data.msg)
+    }
     return response.data
   },
   (error) => {
@@ -49,7 +55,7 @@ axiosInstance.interceptors.response.use(
     ElMessage.error({
       message: msg
     })
-    return Promise.reject(error)
+    return Promise.reject(msg)
   }
 )
 

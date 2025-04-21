@@ -7,11 +7,11 @@ import {
   reqGetJobTree,
   reqPauseJob,
   reqResumeJob,
-} from '@/api/job'
-import type { JobClass, SchedulerJob } from '@/api/job/types'
+} from '../../api/collect'
+import type { JobClass, SchedulerJob } from '@/api/collect/types'
 import { reqGetVodProviders } from '@/api/vod/provider.ts'
-import type { VodProvider } from '@/api/vod/type'
-import { ElMessage } from 'element-plus'
+import type { VodProvider } from '@/api/vod/types.d.ts'
+import CronEditor from '@/components/CronEditor.vue'
 
 const jobTree = ref<SchedulerJob[]>([])
 const isAddJob = ref(true)
@@ -137,6 +137,14 @@ const onJobGroupChange = (group: string) => {
   }
   console.log(vodProvider)
 }
+
+const changeCron = (val: string) => {
+  jobForm.value.cron = val
+}
+
+const openCronDialog = () => {
+  showCronDialog.value = true
+}
 </script>
 
 <template>
@@ -207,14 +215,11 @@ const onJobGroupChange = (group: string) => {
           </el-select>
         </el-form-item>
         <el-form-item label="Cron">
-          <el-row>
-            <el-col :span="16">
-              <el-input v-model="jobForm.cron" placeholder="请输入Cron表达式" />
-            </el-col>
-            <el-col :span="8">
-              <el-button @click="showCronDialog = true">设置</el-button>
-            </el-col>
-          </el-row>
+          <el-input v-model="jobForm.cron" placeholder="请输入Cron表达式">
+            <template #append>
+              <el-button @click="openCronDialog">生成</el-button>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item label="JobClass">
           <el-select v-model="jobForm.jobClass" placeholder="请选择">
@@ -246,13 +251,11 @@ const onJobGroupChange = (group: string) => {
       </template>
     </el-dialog>
 
-    <el-dialog title="Cron表达式" v-model="showCronDialog">
-      <!--      <CronLight
-        v-model="jobForm.cron"
-        max-height="600px">
-      </CronLight>-->
+    <el-dialog v-model="showCronDialog" title="Cron表达式生成器" width="800px">
+      <CronEditor :value="jobForm.cron" @change="changeCron" />
       <template #footer>
-        <el-button @click="showCronDialog = false">关闭</el-button>
+        <el-button @click="showCronDialog = false">取消</el-button>
+        <el-button type="primary" @click="showCronDialog = false">确认</el-button>
       </template>
     </el-dialog>
   </div>

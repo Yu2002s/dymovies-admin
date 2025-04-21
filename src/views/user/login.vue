@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import {ElMessage, type FormInstance} from 'element-plus'
+import { type FormInstance} from 'element-plus'
 import type {LoginForm} from "@/api/user/types";
 
 const userStore = useUserStore()
@@ -8,9 +8,11 @@ const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
 const formRef = ref<FormInstance | null>(null)
+const codeUrl = ref(`/api/admin/verifies?ts=${Date.now()}`)
 const formData = reactive<LoginForm>({
   username: '',
-  password: ''
+  password: '',
+  code: '',
 })
 
 // 表单规则
@@ -26,6 +28,13 @@ const rules = reactive({
     {
       required: true,
       message: '请输入密码',
+      trigger: 'blur'
+    }
+  ],
+  code: [
+    {
+      required: true,
+      message: '请输入验证码',
       trigger: 'blur'
     }
   ]
@@ -60,7 +69,12 @@ const login = async () => {
     console.log(e)
   } finally {
     loading.value = false
+    refreshCode()
   }
+}
+
+const refreshCode = () => {
+  codeUrl.value = `/api/admin/verifies?ts=${Date.now()}`
 }
 </script>
 
@@ -91,6 +105,16 @@ const login = async () => {
                 placeholder="请输入密码"
                 clearable
               ></el-input>
+            </el-form-item>
+            <el-form-item label="验证码" prop="code">
+              <el-row :gutter="10">
+                <el-col :span="14">
+                  <el-input v-model="formData.code" placeholder="请输入验证码" clearable></el-input>
+                </el-col>
+                <el-col :span="10">
+                  <el-image style="cursor: pointer" @click="refreshCode" :src="codeUrl" />
+                </el-col>
+              </el-row>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" style="width: 350px" :loading @click="submitForm(formRef)"

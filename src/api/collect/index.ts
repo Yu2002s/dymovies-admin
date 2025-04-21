@@ -1,6 +1,6 @@
 import request from "@/utils/request.ts";
 import type {BaseResponse} from "@/api/common";
-import type {JobClass, SchedulerJob} from "@/api/job/types";
+import type {JobClass, SchedulerJob} from "@/api/collect/types";
 
 /**
  * 获取 Job 树

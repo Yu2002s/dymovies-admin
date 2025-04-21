@@ -1,19 +1,19 @@
 <template>
   <a class="logo" href="/">
     <el-icon :size="30">
-      <EpVideoCameraFilled/>
+      <EpVideoCameraFilled />
     </el-icon>
     <h1 class="title" v-if="layoutStore.isExpand">冬雨影视后台管理面板</h1>
   </a>
 </template>
 
 <script setup lang="ts">
-import {useLayoutStore} from '@/stores/layout'
+import { useLayoutStore } from '@/stores/layout'
 
 const layoutStore = useLayoutStore()
 
 defineOptions({
-  name: 'AppLogo'
+  name: 'AppLogo',
 })
 </script>
 

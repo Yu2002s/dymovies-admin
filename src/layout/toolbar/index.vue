@@ -3,13 +3,13 @@
     <div class="toolbar">
       <el-row align="middle">
         <el-icon size="20" style="margin-right: 10px" @click="changeStatus">
-          <EpFold v-if="layoutStore.isExpand"/>
-          <EpExpand v-else/>
+          <EpFold v-if="layoutStore.isExpand" />
+          <EpExpand v-else />
         </el-icon>
         <el-breadcrumb>
           <el-breadcrumb-item v-for="item in route.matched" :key="item.path" :to="item.path">
             <el-icon v-if="item.meta.icon" style="vertical-align: middle" size="18">
-              <component :is="item.meta.icon"></component>
+              <Icon :icon="item.meta?.icon"></Icon>
             </el-icon>
             <span style="margin-left: 6px">{{ item.meta.title }}</span>
           </el-breadcrumb-item>
@@ -18,12 +18,12 @@
       <el-row>
         <el-button circle @click="layoutStore.isRefresh = !layoutStore.isRefresh">
           <template #icon>
-            <EpRefresh/>
+            <EpRefresh />
           </template>
         </el-button>
         <el-button circle @click="fullscreen">
           <template #icon>
-            <EpFullScreen/>
+            <EpFullScreen />
           </template>
         </el-button>
         <el-dropdown>
@@ -31,7 +31,7 @@
             <el-image fit="cover" class="user-avatar" :src="userStore.avatar"></el-image>
             {{ userStore.username }}
             <el-icon style="margin-right: 8px; margin-top: 1px">
-              <EpArrowDown/>
+              <EpArrowDown />
             </el-icon>
           </span>
           <template #dropdown>
@@ -43,40 +43,50 @@
       </el-row>
     </div>
   </el-header>
+  <el-tabs
+    :model-value="layoutStore.currentNav"
+    type="border-card"
+    class="demo-tabs"
+    closable
+    @tab-remove="layoutStore.removeNav"
+    @tab-change="onTabChange"
+  >
+    <el-tab-pane
+      v-for="item in layoutStore.navList"
+      :key="item.path"
+      :label="item.title"
+      :name="item.path"
+    >
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script setup lang="ts">
+import { Icon } from '@iconify/vue'
+
 defineOptions({
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Toolbar'
+  name: 'Toolbar',
 })
-/*
-import foldIcon from '~icons/ep/fold'
-import expandIcon from '~icons/ep/expand'
-*/
 
 const route = useRoute()
-const router = useRouter()
-import {useLayoutStore} from '@/stores/layout.js'
-import {useUserStore} from '@/stores/user.js'
+import { useLayoutStore } from '@/stores/layout.js'
+import { useUserStore } from '@/stores/user.js'
+import router from "@/router";
+import type {TabPaneName} from "element-plus";
 
 const layoutStore = useLayoutStore()
 const userStore = useUserStore()
 
-/*const statusIcon = computed(() => {
-  return layoutStore.isExpand ? foldIcon : expandIcon
-})*/
+const onTabChange = (path: TabPaneName) => {
+  router.replace(path as string)
+}
 
 const changeStatus = () => {
-  layoutStore.isExpand = !layoutStore.isExpand
+  layoutStore.changeExpand()
 }
 
 const logout = () => {
   userStore.logout()
-  router.push({
-    path: '/login',
-    query: {redirect: route.path}
-  })
 }
 
 const fullscreen = () => {
@@ -100,7 +110,6 @@ const fullscreen = () => {
   height: 100%;
   width: 100%;
   right: 20px;
-  border-bottom: 1px solid #eee;
 
   .downdrop-link {
     cursor: pointer;
@@ -116,5 +125,15 @@ const fullscreen = () => {
       margin-right: 10px;
     }
   }
+}
+
+.el-tabs--border-card {
+  border-bottom: none;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+  z-index: 999;
+}
+
+::v-deep(.el-tabs__content) {
+    padding-top: 0;
 }
 </style>

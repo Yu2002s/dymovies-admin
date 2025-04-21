@@ -17,3 +17,9 @@ export type Page<T> = {
   pageSize: number,
   data: T[]
 }
+
+
+export type PageParams = {
+  page?: number
+  pageSize?: number
+}

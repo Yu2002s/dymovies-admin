@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import {reqLogin, reqUserInfo} from '@/api/user/index.js'
 import type {LoginForm} from "@/api/user/types";
+import router from '@/router/index.ts'
 
 export const useUserStore = defineStore('user', {
   state: (): { username: string, avatar: string, token: string | null } => ({
@@ -40,6 +41,11 @@ export const useUserStore = defineStore('user', {
     logout() {
       localStorage.removeItem('token')
       this.$reset()
+      router.push({
+        path: '/login', query: {
+          redirect: window.location.pathname
+        }
+      })
     }
   }
 })
