@@ -8,3 +8,6 @@ export const reqGetVodVideoList = (vid: number, flag: string) =>
       flag,
     },
   })
+
+export const reqGetVodVideoByName = (name: string, flag: string) =>
+  request.get<never, BaseResponse<VodVideo[]>>(`/vodVideos/video?name=${name}&flag=${flag}`)

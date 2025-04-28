@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/user.ts'
 import Logo from '@/layout/logo/index.vue'
 import Menu from '@/layout/menu/index.vue'
 import Toolbar from '@/layout/toolbar/index.vue'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import menu from '@/router/routes'
 
@@ -23,31 +24,33 @@ watch(
 </script>
 
 <template>
-  <el-container class="app-container" style="height: 100vh">
-    <el-aside :class="{ expand: layoutStore.isExpand }" v-if="userStore.isLogin">
-      <el-scrollbar>
-        <Logo />
-        <el-menu router :default-active="route.path" :collapse="!layoutStore.isExpand">
-          <Menu :menu-list="menu" />
-        </el-menu>
-      </el-scrollbar>
-    </el-aside>
-
-    <el-container direction="vertical">
-      <Toolbar v-if="userStore.isLogin" />
-      <el-main>
-        <el-scrollbar :class="{ fill: !userStore.isLogin }" height="100%">
-          <RouterView v-slot="{ Component }">
-            <template v-if="Component">
-              <Transition mode="out-in">
-                <component :is="Component" v-if="flag"></component>
-              </Transition>
-            </template>
-          </RouterView>
+  <el-config-provider :locale="zhCn">
+    <el-container class="app-container" style="height: 100vh">
+      <el-aside :class="{ expand: layoutStore.isExpand }" v-if="userStore.isLogin">
+        <el-scrollbar>
+          <Logo />
+          <el-menu router :default-active="route.path" :collapse="!layoutStore.isExpand">
+            <Menu :menu-list="menu" />
+          </el-menu>
         </el-scrollbar>
-      </el-main>
+      </el-aside>
+
+      <el-container direction="vertical">
+        <Toolbar v-if="userStore.isLogin" />
+        <el-main>
+          <el-scrollbar :class="{ fill: !userStore.isLogin }" height="100%">
+            <RouterView v-slot="{ Component }">
+              <template v-if="Component">
+                <Transition mode="out-in">
+                  <component :is="Component" v-if="flag"></component>
+                </Transition>
+              </template>
+            </RouterView>
+          </el-scrollbar>
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
+  </el-config-provider>
 </template>
 
 <style scoped lang="scss">

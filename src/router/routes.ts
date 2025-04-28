@@ -88,6 +88,25 @@ export default [
     ]
   },
   {
+    name: 'live',
+    path: '/live',
+    redirect: '/live/list',
+    meta: {
+      title: '直播管理',
+      icon: 'ep-video-camera'
+    },
+    children: [
+      {
+        path: '/live/list',
+        component: () => import('@/views/live/index.vue'),
+        meta: {
+          title: '直播列表',
+          icon: 'ep-tickets'
+        }
+      }
+    ]
+  },
+  {
     name: 'content',
     path: '/content',
     redirect: '/content/banner',

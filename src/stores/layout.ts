@@ -43,6 +43,10 @@ export const useLayoutStore = defineStore('layout', {
       }
     },
     addNav(nav: NavItem) {
+      if (nav.path === '/login') {
+        // 登录页面不进行添加
+        return
+      }
       if (this.navList.some((item) => item.path === nav.path)) {
         return
       }

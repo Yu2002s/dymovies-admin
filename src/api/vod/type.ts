@@ -16,7 +16,7 @@ export const reqAddVodType = (data: VodType) =>
   request.post<never, BaseResponse<VodType>>('/admin/vodTypes', data)
 
 export const reqGetVodParentTypes = (flag?: string) =>
-  request.get<never, BaseResponse<VodType[]>>('/admin/vodTypes/parent', {
+  request.get<never, BaseResponse<VodType[]>>('/vodTypes/parent', {
     params: {
       flag,
     },

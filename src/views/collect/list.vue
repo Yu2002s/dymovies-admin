@@ -7,7 +7,7 @@ import {
   reqGetJobTree,
   reqPauseJob,
   reqResumeJob,
-} from '../../api/collect'
+} from '@/api/collect'
 import type { JobClass, SchedulerJob } from '@/api/collect/types'
 import { reqGetVodProviders } from '@/api/vod/provider.ts'
 import type { VodProvider } from '@/api/vod/types.d.ts'
@@ -87,7 +87,7 @@ const saveJob = async () => {
 
 const changeJobStatus = async (row: SchedulerJob) => {
   let result: null | BaseResponse<null>
-  if (row.status === 2) {
+  if (row.status === 2 || row.status === 4) {
     result = await reqResumeJob(row)
     row.status = 1
   } else {

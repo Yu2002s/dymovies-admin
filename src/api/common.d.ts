@@ -18,7 +18,9 @@ export type Page<T> = {
   data: T[]
 }
 
-
+/**
+ * 分页参数
+ */
 export type PageParams = {
   page?: number
   pageSize?: number
