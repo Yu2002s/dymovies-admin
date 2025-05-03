@@ -21,7 +21,6 @@ export const getM3U8Content = async (
               const host = url.substring(0, url.lastIndexOf('/') + 1)
               realVideoUrl = host + realVideoUrl
             }
-            console.log('真实的播放地址: ', realVideoUrl)
             break
           }
         }

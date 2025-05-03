@@ -9,7 +9,7 @@ import { reqGetVodVideoByName, reqGetVodVideoList } from '@/api/vod/video.ts'
 // @ts-expect-error
 import { playTs } from '@/utils/video.js'
 import type { VideoPart } from '@/types/video.ts'
-import {getM3U8Content, getVideoParts} from '@/utils/m3u8.ts'
+import { getM3U8Content, getVideoParts } from '@/utils/m3u8.ts'
 
 defineOptions({
   name: 'VodList',
@@ -29,8 +29,8 @@ const currentVodName = ref('')
 const currentVideoProvider = ref('')
 const showVideoContentDialog = ref(false)
 const showVideoPreview = ref(false)
-const videoContent = ref('')
-const tsUrl = ref('')
+const tsContent = ref('')
+const showTsContentDialog = ref(false)
 const videoUrl = ref('')
 const videoParts = ref<VideoPart[]>([])
 
@@ -121,6 +121,7 @@ const parseVideoUrl = async (url: string) => {
 
   try {
     const { content, realVideoUrl } = await getM3U8Content(url)
+    tsContent.value = content
 
     // const tsUrls: string[] = []
     const host = realVideoUrl.substring(0, realVideoUrl.lastIndexOf('/') + 1)
@@ -246,13 +247,14 @@ const parseVideoUrl = async (url: string) => {
     </el-dialog>
 
     <el-dialog title="视频内容" v-model="showVideoContentDialog" :width="1000">
-
       <el-table :data="videoParts" :height="500">
         <el-table-column align="center" label="行数" prop="line" :width="70"></el-table-column>
         <el-table-column align="center" label="时间" prop="time" :width="120"></el-table-column>
         <el-table-column align="center" label="DISCONTINUITY" prop="DISCONTINUITY" :width="100">
-          <template #default="{row}">
-            <el-tag :type="row.DISCONTINUITY ? 'danger' : 'primary'">{{row.DISCONTINUITY ? '是' : '否'}}</el-tag>
+          <template #default="{ row }">
+            <el-tag :type="row.DISCONTINUITY ? 'danger' : 'primary'">
+              {{ row.DISCONTINUITY ? '是' : '否' }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column align="center" label="地址" prop="url" show-overflow-tooltip>
@@ -263,6 +265,7 @@ const parseVideoUrl = async (url: string) => {
       </el-table>
 
       <template #footer>
+        <el-button type="primary" @click="showTsContentDialog = true">数据</el-button>
         <el-button type="info" @click="showVideoContentDialog = false">关闭</el-button>
       </template>
     </el-dialog>
@@ -273,6 +276,15 @@ const parseVideoUrl = async (url: string) => {
       </div>
       <template #footer>
         <el-button type="info" @click="showVideoPreview = false">关闭</el-button>
+      </template>
+    </el-dialog>
+
+    <el-dialog title="Ts预览" v-model="showTsContentDialog">
+      <el-input type="textarea" v-model="tsContent" :rows="20" :autosize="true">
+      </el-input>
+
+      <template #footer>
+        <el-button @click="showTsContentDialog = false">关闭</el-button>
       </template>
     </el-dialog>
   </div>

@@ -1,5 +1,5 @@
-import type {RouteRecordRaw} from "vue-router";
-import HomeView from "@/views/home/index.vue";
+import type { RouteRecordRaw } from 'vue-router'
+import HomeView from '@/views/home/index.vue'
 
 export default [
   {
@@ -8,8 +8,8 @@ export default [
     component: HomeView,
     meta: {
       title: '主页',
-      icon: "ep-cpu"
-    }
+      icon: 'ep-cpu',
+    },
   },
   {
     name: 'login',
@@ -18,7 +18,7 @@ export default [
     meta: {
       title: '登录',
       hidden: true,
-    }
+    },
   },
   {
     name: 'collect',
@@ -26,7 +26,7 @@ export default [
     redirect: '/collect/list',
     meta: {
       title: '采集管理',
-      icon: 'ep-memo'
+      icon: 'ep-memo',
     },
     children: [
       {
@@ -35,8 +35,8 @@ export default [
         component: () => import('@/views/collect/list.vue'),
         meta: {
           title: '采集列表',
-          icon: 'ep-suitcase'
-        }
+          icon: 'ep-suitcase',
+        },
       },
       {
         name: 'provider',
@@ -44,8 +44,8 @@ export default [
         component: () => import('@/views/collect/provider.vue'),
         meta: {
           title: '采集源管理',
-          icon: 'ep-help'
-        }
+          icon: 'ep-help',
+        },
       },
       {
         name: 'job',
@@ -53,9 +53,9 @@ export default [
         component: () => import('@/views/collect/class.vue'),
         meta: {
           title: '采集类列表',
-          icon: 'ep-guide'
-        }
-      }
+          icon: 'ep-guide',
+        },
+      },
     ],
   },
   {
@@ -64,7 +64,7 @@ export default [
     redirect: '/vod/list',
     meta: {
       title: '影片管理',
-      icon: 'ep-video-camera'
+      icon: 'ep-video-camera',
     },
     children: [
       {
@@ -73,8 +73,8 @@ export default [
         component: () => import('@/views/vod/list.vue'),
         meta: {
           title: '影片列表',
-          icon: 'ep-tickets'
-        }
+          icon: 'ep-tickets',
+        },
       },
       {
         name: 'vodType',
@@ -82,10 +82,10 @@ export default [
         component: () => import('@/views/vod/type.vue'),
         meta: {
           title: '影片分类',
-          icon: 'ep-orange'
-        }
-      }
-    ]
+          icon: 'ep-orange',
+        },
+      },
+    ],
   },
   {
     name: 'live',
@@ -93,7 +93,7 @@ export default [
     redirect: '/live/list',
     meta: {
       title: '直播管理',
-      icon: 'ep-video-camera'
+      icon: 'ep-video-camera',
     },
     children: [
       {
@@ -101,10 +101,10 @@ export default [
         component: () => import('@/views/live/index.vue'),
         meta: {
           title: '直播列表',
-          icon: 'ep-tickets'
-        }
-      }
-    ]
+          icon: 'ep-tickets',
+        },
+      },
+    ],
   },
   {
     name: 'content',
@@ -112,7 +112,7 @@ export default [
     redirect: '/content/banner',
     meta: {
       title: '内容管理',
-      icon: 'ep-reading'
+      icon: 'ep-reading',
     },
     children: [
       {
@@ -120,10 +120,18 @@ export default [
         component: () => import('@/views/content/banner.vue'),
         meta: {
           title: '首页Banner管理',
-          icon: 'ep-picture'
-        }
-      }
-    ]
+          icon: 'ep-picture',
+        },
+      },
+      {
+        path: '/content/feedback',
+        component: () => import('@/views/content/feedback.vue'),
+        meta: {
+          title: '用户反馈',
+          icon: 'ep-message-box',
+        },
+      },
+    ],
   },
   {
     name: 'system',
@@ -131,7 +139,7 @@ export default [
     redirect: '/system/config',
     meta: {
       title: '系统管理',
-      icon: 'ep-setting'
+      icon: 'ep-setting',
     },
     children: [
       {
@@ -140,8 +148,8 @@ export default [
         component: () => import('@/views/system/config.vue'),
         meta: {
           title: '系统配置',
-          icon: 'ep-operation'
-        }
+          icon: 'ep-operation',
+        },
       },
       {
         name: 'update',
@@ -149,9 +157,9 @@ export default [
         component: () => import('@/views/system/appVersion.vue'),
         meta: {
           title: 'App版本管理',
-          icon: 'ep-upload'
-        }
-      }
-    ]
-  }
+          icon: 'ep-upload',
+        },
+      },
+    ],
+  },
 ] as RouteRecordRaw[]
