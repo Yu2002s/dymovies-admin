@@ -171,7 +171,7 @@ const openCronDialog = () => {
         <el-table-column prop="desc" label="描述" />
         <el-table-column prop="statusStr" label="状态" width="70" />
 
-        <el-table-column fixed="right" label="操作" width="200">
+        <el-table-column label="操作" width="200">
           <template #default="{ row }">
             <el-button
               size="small"

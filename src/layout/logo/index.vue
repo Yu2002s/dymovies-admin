@@ -1,8 +1,6 @@
 <template>
   <a class="logo" href="/">
-    <el-icon :size="30">
-      <EpVideoCameraFilled />
-    </el-icon>
+    <el-image class="logo-img" src="/favicon.ico"></el-image>
     <h1 class="title" v-if="layoutStore.isExpand">冬雨影视后台管理面板</h1>
   </a>
 </template>
@@ -26,6 +24,11 @@ defineOptions({
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &-img {
+    width: 40px;
+    height: 40px;
+  }
 
   .title {
     margin-left: 10px;

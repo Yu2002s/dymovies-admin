@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import routes from "@/router/routes.ts";
-import {useUserStore} from "@/stores/user.ts";
-import {useLayoutStore} from "@/stores/layout.ts";
+import routes from '@/router/routes.ts'
+import { useUserStore } from '@/stores/user.ts'
+import { useLayoutStore } from '@/stores/layout.ts'
 import nProgress from 'nprogress'
 
 const router = createRouter({
@@ -27,8 +27,8 @@ router.beforeEach(async (to, from, next) => {
         next({
           path: '/login',
           query: {
-            redirect: to.path
-          }
+            redirect: to.path,
+          },
         })
       }
     } else {
@@ -39,8 +39,8 @@ router.beforeEach(async (to, from, next) => {
       next({
         path: '/login',
         query: {
-          redirect: to.path
-        }
+          redirect: to.path,
+        },
       })
     } else {
       next()
@@ -50,7 +50,7 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach((from, next) => {
   nProgress.done()
-  useLayoutStore().addNav({title: from.meta.title, path: from.path})
+  useLayoutStore().addNav({ title: from.meta.title, path: from.path })
 })
 
 export default router

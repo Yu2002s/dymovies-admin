@@ -38,15 +38,13 @@ watch(
       <el-container direction="vertical">
         <Toolbar v-if="userStore.isLogin" />
         <el-main>
-          <el-scrollbar :class="{ fill: !userStore.isLogin }" height="100%">
-            <RouterView v-slot="{ Component }">
-              <template v-if="Component">
-                <Transition mode="out-in">
-                  <component :is="Component" v-if="flag"></component>
-                </Transition>
-              </template>
-            </RouterView>
-          </el-scrollbar>
+          <RouterView v-slot="{ Component }">
+            <template v-if="Component">
+              <Transition mode="out-in">
+                <component :is="Component" v-if="flag"></component>
+              </Transition>
+            </template>
+          </RouterView>
         </el-main>
       </el-container>
     </el-container>

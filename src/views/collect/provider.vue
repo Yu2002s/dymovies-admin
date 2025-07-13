@@ -33,11 +33,12 @@ onMounted(() => {
   getVodProviders()
 })
 
-const openModal = () => {
+const addProvider = () => {
   vodProvider.value = {
     name: '',
     url: '',
   }
+  isAddProvider.value = true
   showModal.value = true
 }
 
@@ -81,7 +82,7 @@ const onWeightChange = async (row: VodProvider) => {
 <template>
   <div style="padding: 10px">
     <el-card>
-      <el-button type="primary" @click="openModal">添加</el-button>
+      <el-button type="primary" @click="addProvider">添加</el-button>
       <el-button @click="getVodProviders">刷新</el-button>
     </el-card>
     <el-card style="margin-top: 10px">
